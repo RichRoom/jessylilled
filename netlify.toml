@@ -1,43 +1,5 @@
 [build]
   command = "npm run build"
-  publish = ".next"
-
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-[build.environment]
-  NPM_FLAGS = "--version" # prevent npm v7 install issues
-
-# Redirect all requests to Next.js
-[[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/nextjs"
-  status = 200
-
-# Handle API routes
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/nextjs"
-  status = 200
-
-# Handle authentication routes
-[[redirects]]
-  from = "/auth/*"
-  to = "/.netlify/functions/nextjs"
-  status = 200
-
-# Handle checkout routes
-[[redirects]]
-  from = "/checkout"
-  to = "/.netlify/functions/nextjs"
-  status = 200
-
-# Handle success routes
-[[redirects]]
-  from = "/success"
-  to = "/.netlify/functions/nextjs"
-  status = 200
