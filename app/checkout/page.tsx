@@ -115,15 +115,18 @@ export default function CheckoutPage() {
         return;
       }
 
-      // Prepare line items for all cart items with quantities
-      const lineItems = cartItems.map(item => {
-        if (!item.stripePriceId) {
-          throw new Error(`Toote "${item.name}" hinnainfo puudub`);
-        }
-        return {
-          price: item.stripePriceId,
-          quantity: item.quantity
-        };
+      // For now, let's use the old format but with the first item
+      // TODO: Implement proper multi-item checkout once Supabase function is updated
+      const firstItem = cartItems[0];
+      
+      if (!firstItem.stripePriceId) {
+        setError("Toote hinnainfo puudub");
+        return;
+      }
+
+      console.log('Attempting checkout with:', {
+        price_id: firstItem.stripePriceId,
+        quantity: firstItem.quantity
       });
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/stripe-checkout`, {
@@ -133,7 +136,7 @@ export default function CheckoutPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          line_items: lineItems,
+          price_id: firstItem.stripePriceId,
           success_url: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${window.location.origin}/checkout`,
           mode: 'payment'

@@ -179,17 +179,19 @@ export default function Home() {
         return;
       }
 
-      // Prepare line items for all cart items with quantities
-      const lineItems = cartItems.map(item => {
-        if (!item.stripePriceId) {
-          throw new Error(`Toote "${item.name}" hinnainfo puudub`);
-        }
-        return {
-          price: item.stripePriceId,
-          quantity: item.quantity
-        };
-      });
+      // For now, let's use the old format but with multiple items
+      // If multiple items, we'll use the first item for now and note this limitation
+      const firstItem = cartItems[0];
       
+      if (!firstItem.stripePriceId) {
+        throw new Error(`Toote "${firstItem.name}" hinnainfo puudub`);
+      }
+
+      console.log('Attempting checkout with:', {
+        price_id: firstItem.stripePriceId,
+        quantity: firstItem.quantity
+      });
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/stripe-checkout`, {
         method: 'POST',
         headers: {
@@ -197,7 +199,7 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          line_items: lineItems,
+          price_id: firstItem.stripePriceId,
           success_url: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${window.location.origin}/`,
           mode: 'payment'
@@ -205,6 +207,8 @@ export default function Home() {
       });
 
       const data = await response.json();
+      
+      console.log('Response from Stripe function:', data);
       
       if (data.error) {
         throw new Error(data.error);
