@@ -1,6 +1,12 @@
 [build]
-  command = "npm run build"
+  command = "npm run build:clean"
   publish = "out"
+
+[build.environment]
+  # Disable secrets scanning for public environment variables
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_SUPABASE_ANON_KEY,NEXT_PUBLIC_SUPABASE_URL"
+  # Also exclude common build cache paths
+  SECRETS_SCAN_OMIT_PATHS = ".next/cache/**,.next/**/*.pack"
 
 # Redirect rules for SPA routing
 [[redirects]]
