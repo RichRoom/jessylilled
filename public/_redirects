@@ -1,0 +1,7 @@
+# SPA redirect rule for Next.js static export
+/*    /index.html   200
+
+# Specific routes that should be handled by the SPA
+/auth/*    /index.html   200
+/checkout  /index.html   200
+/success   /index.html   200
