@@ -1,5 +1,25 @@
 [build]
   command = "npm run build"
+  publish = "out"
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+# Redirect rules for SPA routing
+[[redirects]]
+  from = "/auth/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/checkout"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/success"
+  to = "/index.html"
+  status = 200
+
+# Catch-all redirect for any other routes
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
