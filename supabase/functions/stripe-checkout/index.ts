@@ -32,13 +32,38 @@ Deno.serve(async (req) => {
       return corsResponse({ error: 'Method not allowed' }, 405);
     }
 
-    const { price_id, success_url, cancel_url, mode } = await req.json();
+    const { price_id, line_items, success_url, cancel_url, mode } = await req.json();
+
+    // Support both single price_id (backward compatibility) and line_items array
+    let checkoutLineItems;
+    if (line_items && Array.isArray(line_items)) {
+      // Validate line_items structure
+      for (const item of line_items) {
+        if (!item.price || typeof item.price !== 'string') {
+          return corsResponse({ error: 'Each line item must have a valid price ID' }, 400);
+        }
+        if (!item.quantity || typeof item.quantity !== 'number' || item.quantity < 1) {
+          return corsResponse({ error: 'Each line item must have a valid quantity (minimum 1)' }, 400);
+        }
+      }
+      checkoutLineItems = line_items.map(item => ({
+        price: item.price,
+        quantity: item.quantity,
+      }));
+    } else if (price_id) {
+      // Backward compatibility for single price_id
+      checkoutLineItems = [{
+        price: price_id,
+        quantity: 1,
+      }];
+    } else {
+      return corsResponse({ error: 'Either price_id or line_items must be provided' }, 400);
+    }
 
     const error = validateParameters(
-      { price_id, success_url, cancel_url, mode },
+      { success_url, cancel_url, mode },
       {
         cancel_url: 'string',
-        price_id: 'string',
         success_url: 'string',
         mode: { values: ['payment', 'subscription'] },
       },
@@ -195,12 +220,7 @@ Deno.serve(async (req) => {
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       payment_method_types: ['card'],
-      line_items: [
-        {
-          price: price_id,
-          quantity: 1,
-        },
-      ],
+      line_items: checkoutLineItems,
       mode,
       success_url,
       cancel_url,

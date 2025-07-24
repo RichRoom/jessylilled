@@ -26,6 +26,39 @@ import {
   type CartItem 
 } from "@/lib/cart";
 
+// Google Maps component that only renders on client
+function GoogleMapsSection() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <div className="rounded-2xl overflow-hidden shadow-xl bg-gray-200 flex items-center justify-center" style={{ height: '400px' }}>
+        <div className="text-gray-500">Loading map...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-2xl overflow-hidden shadow-xl" style={{ height: '400px' }}>
+      <gmp-map 
+        data-center="59.41129684448242,24.637178421020508" 
+        data-zoom="14" 
+        data-map-id="DEMO_MAP_ID"
+        style={{ height: '100%', width: '100%' }}
+      >
+        <gmp-advanced-marker 
+          data-position="59.41129684448242,24.637178421020508" 
+          data-title="Jessylilled - Lillepood"
+        ></gmp-advanced-marker>
+      </gmp-map>
+    </div>
+  );
+}
+
 export default function Home() {
   const router = useRouter();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -146,9 +179,16 @@ export default function Home() {
         return;
       }
 
-      // For multiple items, we'll create separate checkout sessions
-      // In a real scenario, you might want to handle this differently
-      const firstItem = cartItems[0];
+      // Prepare line items for all cart items with quantities
+      const lineItems = cartItems.map(item => {
+        if (!item.stripePriceId) {
+          throw new Error(`Toote "${item.name}" hinnainfo puudub`);
+        }
+        return {
+          price: item.stripePriceId,
+          quantity: item.quantity
+        };
+      });
       
       const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/stripe-checkout`, {
         method: 'POST',
@@ -157,7 +197,7 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          price_id: firstItem.stripePriceId,
+          line_items: lineItems,
           success_url: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${window.location.origin}/`,
           mode: 'payment'
@@ -185,6 +225,17 @@ export default function Home() {
     await supabase.auth.signOut();
     setUser(null);
     setSubscription(null);
+  };
+
+  // Smooth scroll to sections
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   };
 
   return (
@@ -275,10 +326,21 @@ export default function Home() {
               </div>
               
               <div className="flex flex-wrap gap-4">
-                <Button size="lg" className="bg-gray-900 hover:bg-gray-800 text-white px-8">
-                  Osta Kohe
+                <Button 
+                  size="lg" 
+                  className="bg-white hover:bg-gray-50 border border-gray-200 px-8 shadow-md"
+                  onClick={() => scrollToSection('lilled')}
+                >
+                  <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-orange-500 bg-clip-text text-transparent font-semibold">
+                    Osta Kohe
+                  </span>
                 </Button>
-                <Button size="lg" variant="outline" className="border-gray-300 hover:bg-gray-50">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="border-gray-300 hover:bg-gray-50"
+                  onClick={() => scrollToSection('kaart')}
+                >
                   Leia Meid
                 </Button>
               </div>
@@ -398,10 +460,19 @@ export default function Home() {
                     </div>
                     <Button 
                       size="sm"
-                      className="bg-purple-600 hover:bg-purple-700 text-white"
-                      onClick={() => addFlowerToCart(product, 1)}
+                      className="bg-purple-600 hover:bg-purple-700 text-white ml-4 px-1.5 py-0.5 text-xs h-6"
+                      onClick={() => {
+                        if (getItemQuantityInCart(product.id) === 0) {
+                          // Add item to cart and go to checkout
+                          addFlowerToCart(product, 1);
+                          router.push('/checkout');
+                        } else {
+                          // Item already in cart, go to checkout
+                          router.push('/checkout');
+                        }
+                      }}
                     >
-                      Lisa korvi
+                      {getItemQuantityInCart(product.id) === 0 ? 'Lisa korvi' : 'Ostma'}
                     </Button>
                   </div>
                 </CardContent>
@@ -528,7 +599,7 @@ src="https://lh3.googleusercontent.com/p/AF1QipMZL3iL1yZRhAMjI8NqhGJ0hjta0kP2fb_
       </section>
 
       {/* Google Maps Section */}
-      <section className="py-16 bg-gray-50">
+      <section id="kaart" className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-12">
             <Badge className="bg-blue-100 text-blue-700">Asukoht</Badge>
@@ -540,19 +611,7 @@ src="https://lh3.googleusercontent.com/p/AF1QipMZL3iL1yZRhAMjI8NqhGJ0hjta0kP2fb_
             </p>
           </div>
           
-          <div className="rounded-2xl overflow-hidden shadow-xl" style={{ height: '400px' }}>
-            <gmp-map 
-              data-center="59.41129684448242,24.637178421020508" 
-              data-zoom="14" 
-              data-map-id="DEMO_MAP_ID"
-              style={{ height: '100%', width: '100%' }}
-            >
-              <gmp-advanced-marker 
-                data-position="59.41129684448242,24.637178421020508" 
-                data-title="Jessylilled - Lillepood"
-              ></gmp-advanced-marker>
-            </gmp-map>
-          </div>
+          <GoogleMapsSection />
         </div>
       </section>
 

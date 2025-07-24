@@ -115,14 +115,16 @@ export default function CheckoutPage() {
         return;
       }
 
-      // For now, we'll handle the first item in the cart
-      // In a real scenario, you might want to create a custom solution for multiple items
-      const firstItem = cartItems[0];
-      
-      if (!firstItem.stripePriceId) {
-        setError("Toote hinnainfo puudub");
-        return;
-      }
+      // Prepare line items for all cart items with quantities
+      const lineItems = cartItems.map(item => {
+        if (!item.stripePriceId) {
+          throw new Error(`Toote "${item.name}" hinnainfo puudub`);
+        }
+        return {
+          price: item.stripePriceId,
+          quantity: item.quantity
+        };
+      });
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/stripe-checkout`, {
         method: 'POST',
@@ -131,7 +133,7 @@ export default function CheckoutPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          price_id: firstItem.stripePriceId,
+          line_items: lineItems,
           success_url: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${window.location.origin}/checkout`,
           mode: 'payment'
