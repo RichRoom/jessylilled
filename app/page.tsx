@@ -135,11 +135,11 @@ export default function Home() {
 
   const getFlowerImage = (name: string): string => {
     const imageMap: { [key: string]: string } = {
-      'Roos': 'https://res.cloudinary.com/effichat/image/upload/v1753343986/ju1fgyinhpnhzqhpnkbx.png',
-      'Nelk': 'https://res.cloudinary.com/effichat/image/upload/v1753343988/hb7jhbqh4pjugiletnsp.png',
-      'Krüsanteem': 'https://res.cloudinary.com/effichat/image/upload/v1753343985/ntyhjwvcfkrbmlcqbaes.png',
-      'Iiris': 'https://res.cloudinary.com/effichat/image/upload/v1753343990/yx07lu1jufzjbzowipue.png',
-      'Liilia': 'https://res.cloudinary.com/effichat/image/upload/v1753343990/jsk3sv3fzxpsaa7ekdhw.png'
+      'Rooside Kimp': 'https://res.cloudinary.com/effichat/image/upload/v1753444637/nmlxjjfsxmdvqi0zd3t1.png',
+      'Nelkide Kimp': 'https://res.cloudinary.com/effichat/image/upload/v1753444638/amogq801knokrnmdnqyl.png',
+      'Krüsanteemide Kimp': 'https://res.cloudinary.com/effichat/image/upload/v1753444641/fkn5zog4tyg43zgeniky.png',
+      'Iiriste Kimp': 'https://res.cloudinary.com/effichat/image/upload/v1753444636/p7hkpp6vw3jgr65ypb3l.png',
+      'Inkaliilia Kimp': 'https://res.cloudinary.com/effichat/image/upload/v1753444632/fkbdyajd7c9rdfqnrboz.png'
     };
     return imageMap[name] || '';
   };
@@ -239,7 +239,7 @@ export default function Home() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <img 
-                src="https://www.jessylilled.ee/_next/static/media/logo.26ea0e97.svg" 
+                src="https://res.cloudinary.com/effichat/image/upload/v1753446475/yr4tun8huqhdedklgve0.png" 
                 alt="Jessylilled Logo" 
                 className="h-8 w-auto"
               />
@@ -508,7 +508,7 @@ export default function Home() {
             <div className="space-y-6">
               <Badge className="bg-yellow-100 text-yellow-700">Meist</Badge>
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-                Värskeid lilli juba üle 10 aasta
+                Värskeid lilli juba üle 20 aasta
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed">
                 Jessylilled on Eesti juhtiv lillepood, mis pakub kõige värskemaid ja kaunimaid lilli. 
@@ -583,7 +583,7 @@ src="https://lh3.googleusercontent.com/p/AF1QipMZL3iL1yZRhAMjI8NqhGJ0hjta0kP2fb_
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900">Lahtiolekuajad</h3>
-                  <p className="text-gray-600">E-R 9-19 L 10-17 P 10-17</p>
+                  <p className="text-gray-600">E-R 9-19 L 10-19 P 10-17</p>
                 </div>
               </CardContent>
             </Card>
@@ -630,11 +630,11 @@ src="https://lh3.googleusercontent.com/p/AF1QipMZL3iL1yZRhAMjI8NqhGJ0hjta0kP2fb_
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
                 <img 
-                  src="https://www.jessylilled.ee/_next/static/media/logo.26ea0e97.svg" 
+                  src="https://res.cloudinary.com/effichat/image/upload/v1753446475/yr4tun8huqhdedklgve0.png" 
                   alt="Jessylilled Logo" 
                   className="h-8 w-auto"
                 />
@@ -652,6 +652,18 @@ src="https://lh3.googleusercontent.com/p/AF1QipMZL3iL1yZRhAMjI8NqhGJ0hjta0kP2fb_
                 <a href="#lilled" className="block text-gray-400 hover:text-white transition-colors">Lilled</a>
                 <a href="#meist" className="block text-gray-400 hover:text-white transition-colors">Meist</a>
                 <a href="#kontakt" className="block text-gray-400 hover:text-white transition-colors">Kontakt</a>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Teenused & Info</h3>
+              <div className="space-y-2">
+                <a href="/lillede-hooldamine" className="block text-gray-400 hover:text-white transition-colors">Lillede hooldamine</a>
+                {/* <a href="/kuidas-osta" className="block text-gray-400 hover:text-white transition-colors">Kuidas osta</a> */}
+                {/* <a href="/kattetoimetamine" className="block text-gray-400 hover:text-white transition-colors">Kättetoimetamine</a> */}
+                <a href="/maksetingimused" className="block text-gray-400 hover:text-white transition-colors">Maksetingimused</a>
+                <a href="/tagastamisoigus" className="block text-gray-400 hover:text-white transition-colors">Tagastamisõigus</a>
+                <a href="/privaatsuseeskirjad" className="block text-gray-400 hover:text-white transition-colors">Privaatsuseeskirjad</a>
               </div>
             </div>
 

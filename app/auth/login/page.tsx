@@ -59,7 +59,7 @@ export default function LoginPage() {
           
           <div className="flex justify-center mb-6">
             <img 
-              src="https://www.jessylilled.ee/_next/static/media/logo.26ea0e97.svg" 
+              src="https://res.cloudinary.com/effichat/image/upload/v1753446475/yr4tun8huqhdedklgve0.png" 
               alt="Jessylilled Logo" 
               className="h-12 w-auto"
             />

@@ -307,7 +307,7 @@ export default function CheckoutPage() {
                   <strong>Aadress:</strong> Õismäe tee 107, Tallinn
                 </p>
                 <p className="text-sm text-gray-600">
-                  <strong>Lahtiolekuajad:</strong> E-R 9-19, L 10-17, P 10-17
+                  <strong>Lahtiolekuajad:</strong> E-R 9-19, L 10-19, P 10-17
                 </p>
                 <p className="text-sm text-gray-600">
                   <strong>Telefon:</strong> +372 5380 2101

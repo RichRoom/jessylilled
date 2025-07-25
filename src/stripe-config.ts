@@ -11,41 +11,41 @@ export const stripeProducts: StripeProduct[] = [
   {
     id: 'prod_SjqyLEI9bHsYyI',
     priceId: 'price_1RoNGp01mQ6htghpnMwz8Mgu',
-    name: 'Nelk',
+    name: 'Nelkide Kimp',
     description: 'Värviline nelk',
-    price: 2.00,
+    price: 20,
     mode: 'payment'
   },
   {
     id: 'prod_SjqyR8WH6YpcA2',
     priceId: 'price_1RoNGA01mQ6htghp3Ny0c4B2',
-    name: 'Iiris',
+    name: 'Iiriste Kimp',
     description: 'Sinine iiris',
-    price: 2.00,
+    price: 20,
     mode: 'payment'
   },
   {
     id: 'prod_SjqxAZ47ySibhH',
     priceId: 'price_1RoNFk01mQ6htghpfaxxxPzW',
-    name: 'Krüsanteem',
+    name: 'Krüsanteemide Kimp',
     description: 'Kaunis krüsanteem',
-    price: 4.00,
+    price: 20,
     mode: 'payment'
   },
   {
     id: 'prod_Sjo0tM8iOtSjI0',
     priceId: 'price_1RoKOD01mQ6htghpP7HGG7Jz',
-    name: 'Liilia',
+    name: 'Inkaliilia Kimp',
     description: 'Roosa liilia',
-    price: 7.00,
+    price: 25,
     mode: 'payment'
   },
   {
     id: 'prod_SjnyNM0Yadymqz',
     priceId: 'price_1RoKMJ01mQ6htghpfWLfu8Z1',
-    name: 'Roos',
+    name: 'Rooside Kimp',
     description: 'Klassikaline punane roos',
-    price: 3.00,
+    price: 27,
     mode: 'payment'
   }
 ];
