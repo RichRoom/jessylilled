@@ -19,10 +19,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <script 
-          async 
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAP3z24jYgZ3LiQqTpTkSiLVFjZc5lqIdg&callback=console.debug&libraries=maps,marker&v=beta"
-        ></script>
-        <script 
           src="https://widgets.sociablekit.com/google-reviews/widget.js" 
           defer
         ></script>

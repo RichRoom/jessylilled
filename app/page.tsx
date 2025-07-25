@@ -1,16 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
-// Add custom elements to JSX namespace for TypeScript
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'gmp-map': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
-      'gmp-advanced-marker': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
-    }
-  }
-}
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -44,17 +34,16 @@ function GoogleMapsSection() {
 
   return (
     <div className="rounded-2xl overflow-hidden shadow-xl" style={{ height: '400px' }}>
-      <gmp-map 
-        data-center="59.41129684448242,24.637178421020508" 
-        data-zoom="14" 
-        data-map-id="DEMO_MAP_ID"
-        style={{ height: '100%', width: '100%' }}
-      >
-        <gmp-advanced-marker 
-          data-position="59.41129684448242,24.637178421020508" 
-          data-title="Jessylilled - Lillepood"
-        ></gmp-advanced-marker>
-      </gmp-map>
+      <iframe
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAP3z24jYgZ3LiQqTpTkSiLVFjZc5lqIdg&q=Õismäe+tee+107,+Tallinn,+Estonia&zoom=15"
+        width="100%"
+        height="100%"
+        style={{ border: 0 }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        title="Jessylilled - Lillepood asukoht Õismäe tee 107, Tallinn"
+      ></iframe>
     </div>
   );
 }
